@@ -30,4 +30,15 @@
  - 🧠 Almacenamiento temporal de estado (si aún no tienes conexión con backend).
  - 📱 Responsive: adaptar diseño para móvil (hamburguesa, columnas, etc).
 
- 
+## paleta de colores
+| Uso                           | Color claro               | Color dark                |
+| ----------------------------- | ------------------------- | ------------------------- |
+| Fondo principal               | `#F9F9F9` (casi blanco)   | `#121212` (negro azulado) |
+| Fondo de tarjetas             | `#FFFFFF`                 | `#1E1E1E`                 |
+| Texto principal               | `#1A1A1A`                 | `#EAEAEA`                 |
+| Texto secundario              | `#555555`                 | `#BBBBBB`                 |
+| Acento 1 (botones)            | `#E50914` (rojo Netflix)  | `#E50914`                 |
+| Acento 2 (hover, tags)        | `#F5C518` (amarillo IMDb) | `#F5C518`                 |
+| Éxito (vistas)                | `#00C896`                 | `#00C896`                 |
+| Fondo de elementos destacados | `#ECECEC`                 | `#252525`                 |
+

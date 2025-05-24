@@ -1,0 +1,24 @@
+/*---General---*/
+* {
+    background-color: #F9F9F9;
+}
+/*---HEADER---*/
+#header {
+    background-color: #F9F9F9;
+}
+
+.nav-item:hover {
+    background-color: #F5C518;
+    color: black;
+    border-radius: 10%;
+}
+
+.dropdown-menu {
+    background-color: #F9F9F9;
+}
+
+.dropdown-item:hover {
+    background-color: #F5C518;
+    color: black;
+    border-radius: 10%;
+}
