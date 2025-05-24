@@ -1,7 +1,8 @@
 /*---General---*/
-* {
+.container {
     background-color: #F9F9F9;
 }
+
 /*---HEADER---*/
 #header {
     background-color: #F9F9F9;
