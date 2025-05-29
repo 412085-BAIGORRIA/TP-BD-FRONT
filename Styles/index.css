@@ -8,8 +8,20 @@ body {
 }
 
 header {
-    background-color: #1c2b2d;
     padding: 20px;
+}
+
+#navbar {
+    border-radius: 10px;
+}
+
+.nav-item {
+    padding: 5px;
+    border-radius: 5px;
+}
+
+.nav-item:hover {
+    background-color: #157347;
 }
 
 h1 {
@@ -55,4 +67,15 @@ button:hover {
 
 .divider {
     width: 40px;
+}
+
+#card-body {
+    background-color: #146c43;
+    border-bottom-right-radius: 15px;
+    border-bottom-left-radius: 15px;
+}
+
+#card-complete {
+    border: 2px solid black;
+    border-radius: 15px;
 }

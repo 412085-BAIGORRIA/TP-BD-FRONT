@@ -130,15 +130,15 @@ async function buscarPeliculas() {
 
         card.innerHTML = `
              <div class="col">
-                <div class="card h-100 shadow-sm">
+                <div id="card-complete" class="card h-100 shadow-sm">
                     <img src="https://image.tmdb.org/t/p/w200${peli.poster_path}" class="card-img-top" alt="poster" width=300 height=300>
-                    <div class="card-body d-flex flex-column bg-primary">
+                    <div id="card-body" class="card-body d-flex flex-column">
                         <h5 class="card-title">${peli.title} (${(peli.release_date || '').split('-')[0] || 'N/A'})</h5>
                         <p class="card-text text-truncate">${peli.overview || 'Sin descripción'}</p>
                         <div class="mt-auto">
                             <button onclick="agregarFavorito('${peli.id}')">❤️ Favorito</button>
                             <button onclick="quitarFavorito('${peli.id}')">❌ Quitar</button>
-                            <select class="bg-success" onchange="puntuar('${peli.id}', this.value)">
+                            <select class="bg-success rounded-pill mt-1" onchange="puntuar('${peli.id}', this.value)">
                             <option value="">⭐ Puntuar</option>
                             ${[1,2,3,4,5].map(n => `<option class="bg-success" value="${n}">${n}</option>`).join("")}
                             </select>
