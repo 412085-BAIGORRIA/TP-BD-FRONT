@@ -1,4 +1,4 @@
-const API_KEY = "826664005a5966d64d967b70dcc87724";
+/*const API_KEY = "826664005a5966d64d967b70dcc87724";
 const API_URL = `https://api.themoviedb.org/3/movie/popular?api_key=${API_KEY}&language=es&page=1`;
 
 async function traerPeliculas(){
@@ -45,6 +45,7 @@ async function traerPeliculas(){
 addEventListener('DOMContentLoaded', () => {
     traerPeliculas();
 });*/
+
 //const baseUrl = "https://tpbdii-backend.onrender.com";
 
 const baseUrl = "http://localhost:8080";
