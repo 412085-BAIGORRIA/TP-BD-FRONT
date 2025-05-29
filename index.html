@@ -11,50 +11,46 @@
      <header id="header" class="mb-3">
         <nav class="navbar bg-success">
             <div class="container-fluid">
-                <span class="navbar-brand mb-0 h1">Navbar</span>
+                <span class="navbar-brand mb-0 h1">Films Tracker</span>
+                <div class="d-flex">
+                    <a id="login-nav-button" href="Pages/login.html" class="btn btn-outline-light me-2">Login</a>
+                    <button id="admin-button" onclick="window.location.href='Pages/admin.html'" class="btn btn-warning me-2" style="display: none;">Admin</button>
+                    <button id="logout-button" onclick="logout()" class="btn btn-danger" style="display: none;">Cerrar sesión</button>
+                </div>
             </div>
         </nav>
     </header>
-    <main class="container bg-dark">
-        <h1 class="text-center">Films Tracker</h1>
-        <button id="admin-button" onclick="window.location.href='Pages/admin.html'" style="display: none;">Panel de administración</button>
+     <main class="container bg-dark text-center py-4">
+         <h1 class="text-light mb-4">Bienvenido a Films Tracker</h1>
 
-        <div class="panel d-flex justify-content-center" id="auth-panel">
-            <div id="login" class="m-3 d-flex flex-column text-center col-6">
-                <h2>Login</h2>
-                <input type="text" id="login-username" placeholder="Usuario" class="form-control mb-2 text-center">
-                <input type="password" id="login-password" placeholder="Contraseña" class="form-control mb-2 text-center">
-                <button onclick="login()" class="btn btn-success text-dark">Iniciar sesión</button>
-            </div>
-            <div id="register" class="m-3 d-flex flex-column text-center col-6">
-                <h2>Registro</h2>
-                <input type="text" id="register-username" placeholder="Usuario" class="form-control mb-2 text-center">
-                <input type="email" id="register-email" placeholder="Email" class="form-control mb-2 text-center">
-                <input type="password" id="register-password" placeholder="Contraseña" class="form-control mb-2 text-center">
-                <button onclick="register()" class="btn btn-success text-dark">Registrarse</button>
-            </div>
-        </div>
-        <button onclick="logout()">Cerrar sesión</button>
+         <div id="search-panel" style="display:none;">
+             <!-- Contenido que se mostrará después del login -->
+             <div class="panel d-flex justify-content-center mb-4">
+                 <div class="d-flex align-items-center">
+                     <h2>Buscar película</h2>
+                     <input type="text" id="query" placeholder="Ej: inception" class="form-control me-2">
+                     <button onclick="buscarPeliculas()" class="btn btn-success">Buscar</button>
+                 </div>
+             </div>
 
-        <div id="search-panel" style="display:none;">
-            <div class="panel">
-                <h2>Buscar películas</h2>
-                <input type="text" id="query" placeholder="Ej: inception">
-                <button onclick="buscarPeliculas()" class="btn btn-success p-2 m-4">Buscar</button>
-                <div id="results" class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4"></div>
-            </div>
+             <div id="results" class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4"></div>
 
-            <div class="panel">
-                <h2>Mis favoritos</h2>
-                <ul id="favoritos"></ul>
-            </div>
-
-            <div class="panel">
-                <h2>Mis puntuaciones</h2>
-                <ul id="ratings"></ul>
-            </div>
-        </div>
-    </main>
+             <div class="row mt-4">
+                 <div class="col-md-6">
+                     <div class="panel p-3 bg-secondary rounded">
+                         <h2>Mis favoritos</h2>
+                         <ul id="favoritos" class="list-group"></ul>
+                     </div>
+                 </div>
+                 <div class="col-md-6">
+                     <div class="panel p-3 bg-secondary rounded">
+                         <h2>Mis puntuaciones</h2>
+                         <ul id="ratings" class="list-group"></ul>
+                     </div>
+                 </div>
+             </div>
+         </div>
+     </main>
     <footer></footer>
     <script src="Scripts/index.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js" integrity="sha384-j1CDi7MgGQ12Z7Qab0qlWQ/Qqz24Gc6BM0thvEMVjHnfYGF0rmFCozFSxQBxwHKO" crossorigin="anonymous"></script>

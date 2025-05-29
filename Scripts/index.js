@@ -51,18 +51,22 @@ addEventListener('DOMContentLoaded', () => {
 const baseUrl = "http://localhost:8080";
 let token = localStorage.getItem("token") || null;
 
-window.onload = () => {
-    if (token) {
-        const payload = JSON.parse(atob(token.split('.')[1]));
-        if (payload.role === "ADMIN") {
-            document.getElementById("admin-button").style.display = "inline-block";
+// Verificar autenticación al cargar la página principal
+if (window.location.pathname.endsWith("index.html")) {
+    window.onload = () => {
+        if (token) {
+            const payload = JSON.parse(atob(token.split('.')[1]));
+            if (payload.role === "ADMIN") {
+                document.getElementById("admin-button").style.display = "block";
+            }
+            document.getElementById("login-nav-button").style.display = "none";
+            document.getElementById("logout-button").style.display = "block";
+            document.getElementById("search-panel").style.display = "block";
+            cargarFavoritos();
+            cargarRatings();
         }
-        document.getElementById("auth-panel").style.display = "none";
-        document.getElementById("search-panel").style.display = "block";
-        cargarFavoritos();
-        cargarRatings();
-    }
-};
+    };
+}
 
 async function login() {
     const username = document.getElementById("login-username").value;
@@ -78,15 +82,11 @@ async function login() {
         const data = await res.json();
         token = data.token;
         localStorage.setItem("token", token);
-        const payload = JSON.parse(atob(token.split('.')[1]));
-        if (payload.role === "ADMIN") {
-            document.getElementById("admin-button").style.display = "inline-block";
-        }
-        document.getElementById("auth-panel").style.display = "none";
-        document.getElementById("search-panel").style.display = "block";
-        alert("Login exitoso");
-        cargarFavoritos();
-        cargarRatings();
+
+        // Redirigir a la página principal después del login
+        window.location.href = "../index.html";
+    } else {
+        alert("Error en el login. Verifica tus credenciales.");
     }
 }
 
@@ -102,10 +102,18 @@ async function register() {
     });
 
     if (res.ok) {
-        alert("Usuario registrado 🎉");
+        alert("Registro exitoso. Por favor inicia sesión.");
+        // Redirigir a la página de login después del registro
+        window.location.href = "login.html";
     } else {
-        alert("Error al registrar ❌");
+        alert("Error en el registro. Intenta nuevamente.");
     }
+}
+
+function logout() {
+    localStorage.removeItem("token");
+    // Recargar la página para actualizar la UI
+    window.location.href = "index.html";
 }
 
 async function buscarPeliculas() {
@@ -119,7 +127,7 @@ async function buscarPeliculas() {
         const card = document.createElement("div");
         card.className = "movie-card";
         card.classList.add("col");
-    
+
         card.innerHTML = `
              <div class="col">
                 <div class="card h-100 shadow-sm">
@@ -209,15 +217,4 @@ async function cargarRatings() {
     }));
 
     ratingsList.innerHTML = detalles.join("");
-}
-
-function logout() {
-    localStorage.removeItem("token");
-    token = null;
-    document.getElementById("search-panel").style.display = "none";
-    document.getElementById("auth-panel").style.display = "block";
-    document.getElementById("results").innerHTML = "";
-    document.getElementById("favoritos").innerHTML = "";
-    document.getElementById("ratings").innerHTML = "";
-    document.getElementById("admin-button").style.display = "none";
 }
