@@ -7,55 +7,53 @@
     <link rel="stylesheet" href="Styles/index.css">
     <title>Check Films</title>
 </head>
-<body class="container">
-    <header id="header">
-        <nav class="navbar navbar-expand-lg">
+<body class="bg-dark">
+     <header id="header" class="mb-3">
+        <nav class="navbar bg-success">
             <div class="container-fluid">
-                <a class="navbar-brand" href="#">Check Films</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                Categorias
-                            </a>
-                            <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" href="#">Drama</a></li>
-                                <li><a class="dropdown-item" href="#">Aventura</a></li>
-                                <li><a class="dropdown-item" href="#">Acción</a></li>
-                            </ul>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link active" aria-current="page" href="#">Vistas</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link active" aria-current="page" href="#">Por ver</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link active" aria-current="page" href="#">Favoritos</a>
-                        </li>
-                    </ul>
-                    <form class="d-flex" role="search">
-                        <input class="form-control me-2" type="search" placeholder="Buscar" aria-label="Search"/>
-                        <button class="btn btn-outline-success" type="submit">Buscar</button>
-                    </form>
-                </div>
+                <span class="navbar-brand mb-0 h1">Navbar</span>
             </div>
         </nav>
     </header>
-    <main id="main">
-        <section>
-            <h1 class="text-center">Peliculas</h1>
-            <div class="container my-4">
-                <h2 class="mb-4 text-center">Películas populares</h2>
+    <main class="container bg-dark">
+        <h1 class="text-center">Films Tracker</h1>
+        <button id="admin-button" onclick="window.location.href='Pages/admin.html'" style="display: none;">Panel de administración</button>
 
-                <div id="listado" class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4">
-                    <!--Carga desde JS-->
-                </div>
+        <div class="panel d-flex justify-content-center" id="auth-panel">
+            <div id="login" class="m-3 d-flex flex-column text-center col-6">
+                <h2>Login</h2>
+                <input type="text" id="login-username" placeholder="Usuario" class="form-control mb-2 text-center">
+                <input type="password" id="login-password" placeholder="Contraseña" class="form-control mb-2 text-center">
+                <button onclick="login()" class="btn btn-success text-dark">Iniciar sesión</button>
             </div>
-        </section>
+            <div id="register" class="m-3 d-flex flex-column text-center col-6">
+                <h2>Registro</h2>
+                <input type="text" id="register-username" placeholder="Usuario" class="form-control mb-2 text-center">
+                <input type="email" id="register-email" placeholder="Email" class="form-control mb-2 text-center">
+                <input type="password" id="register-password" placeholder="Contraseña" class="form-control mb-2 text-center">
+                <button onclick="register()" class="btn btn-success text-dark">Registrarse</button>
+            </div>
+        </div>
+        <button onclick="logout()">Cerrar sesión</button>
+
+        <div id="search-panel" style="display:none;">
+            <div class="panel">
+                <h2>Buscar películas</h2>
+                <input type="text" id="query" placeholder="Ej: inception">
+                <button onclick="buscarPeliculas()" class="btn btn-success p-2 m-4">Buscar</button>
+                <div id="results" class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4"></div>
+            </div>
+
+            <div class="panel">
+                <h2>Mis favoritos</h2>
+                <ul id="favoritos"></ul>
+            </div>
+
+            <div class="panel">
+                <h2>Mis puntuaciones</h2>
+                <ul id="ratings"></ul>
+            </div>
+        </div>
     </main>
     <footer></footer>
     <script src="Scripts/index.js"></script>
