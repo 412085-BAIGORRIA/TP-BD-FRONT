@@ -195,9 +195,28 @@ async function cargarFavoritos() {
     const res = await fetch(`${baseUrl}/api/user/favorites`, {
         headers: { "Authorization": `Bearer ${token}` }
     });
-    if (!res.ok) return;
-    const favs = await res.json();
-    document.getElementById("favoritos").innerHTML = favs.map(f => `<li>${JSON.parse(f).title}</li>`).join("");
+    if (!res.ok) {
+        console.error("Error en la respuesta", res.status);
+        return;
+    }
+    const data = await res.json();
+    console.log("Respuesta de favoritos:", data);
+
+    if (!Array.isArray(data)) {
+        console.error("La respuesta no es un arreglo:", data);
+        return;
+    }
+
+    const favs = data.map(f => JSON.parse(f));
+
+    document.getElementById("favoritos").innerHTML = favs.map(pelicula => `
+        <li style="display: flex; align-items: center; margin-bottom: 8px;">
+            <img src="https://image.tmdb.org/t/p/w92${pelicula.poster_path}" 
+                 alt="${pelicula.title}" 
+                 style="width: 50px; height: auto; margin-right: 10px; border-radius: 4px;">
+            <span>${pelicula.title}</span>
+        </li>
+    `).join("");
 }
 
 async function cargarRatings() {
@@ -212,9 +231,24 @@ async function cargarRatings() {
 
     const detalles = await Promise.all(ratings.map(async (r) => {
         const res = await fetch(`${baseUrl}/api/movies/${r.movieId}`);
+        if (!res.ok) return `<li>Error cargando película ID ${r.movieId}</li>`;
         const peli = await res.json();
-        return `<li><strong>${peli.title}</strong>: ${r.score}/5</li>`;
+
+        return `
+            <li style="display: flex; align-items: center; margin-bottom: 8px;">
+                <img src="https://image.tmdb.org/t/p/w92${peli.poster_path}" 
+                     alt="${peli.title}" 
+                     style="width: 50px; height: auto; margin-right: 10px; border-radius: 4px;">
+                <span><strong>${peli.title}</strong>: ${r.score}/5</span>
+            </li>
+        `;
     }));
 
     ratingsList.innerHTML = detalles.join("");
+}
+
+function mostrarSeccion(nombre) {
+    document.getElementById("search-panel").style.display = nombre === "buscar" ? "block" : "none";
+    document.getElementById("favoritos-panel").style.display = nombre === "favoritos" ? "block" : "none";
+    document.getElementById("puntuaciones-panel").style.display = nombre === "puntuaciones" ? "block" : "none";
 }

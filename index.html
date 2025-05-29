@@ -11,7 +11,20 @@
      <header id="header" class="mb-3">
         <nav class="navbar bg-success">
             <div class="container-fluid">
-                <span class="navbar-brand mb-0 h1">Films Tracker</span>
+                <a href="#" onclick="mostrarSeccion('buscar')" class="navbar-brand mb-0 h1 text-white text-decoration-none">
+                    Films Tracker
+                </a>
+                <ul class="navbar-nav d-flex flex-row">
+                    <li class="nav-item me-2">
+                        <a class="nav-link text-white" href="#" onclick="mostrarSeccion('buscar')">Buscar película</a>
+                    </li>
+                    <li class="nav-item me-2">
+                        <a class="nav-link text-white" href="#" onclick="mostrarSeccion('favoritos')">Mis Favoritos</a>
+                    </li>
+                    <li class="nav-item me-2">
+                        <a class="nav-link text-white" href="#" onclick="mostrarSeccion('puntuaciones')">Mis Puntuaciones</a>
+                    </li>
+                </ul>
                 <div class="d-flex">
                     <a id="login-nav-button" href="Pages/login.html" class="btn btn-outline-light me-2">Login</a>
                     <button id="admin-button" onclick="window.location.href='Pages/admin.html'" class="btn btn-warning me-2" style="display: none;">Admin</button>
@@ -23,32 +36,23 @@
      <main class="container bg-dark text-center py-4">
          <h1 class="text-light mb-4">Bienvenido a Films Tracker</h1>
 
-         <div id="search-panel" style="display:none;">
-             <!-- Contenido que se mostrará después del login -->
-             <div class="panel d-flex justify-content-center mb-4">
-                 <div class="d-flex align-items-center">
-                     <h2>Buscar película</h2>
-                     <input type="text" id="query" placeholder="Ej: inception" class="form-control me-2">
-                     <button onclick="buscarPeliculas()" class="btn btn-success">Buscar</button>
-                 </div>
+         <div id="search-panel" class="panel-seccion">
+             <h2 class="text-white">Buscar película</h2>
+             <div class="d-flex align-items-center justify-content-center mb-3">
+                 <input type="text" id="query" placeholder="Ej: inception" class="form-control me-2 w-50">
+                 <button onclick="buscarPeliculas()" class="btn btn-success">Buscar</button>
              </div>
-
              <div id="results" class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4"></div>
+         </div>
 
-             <div class="row mt-4">
-                 <div class="col-md-6">
-                     <div class="panel p-3 bg-secondary rounded">
-                         <h2>Mis favoritos</h2>
-                         <ul id="favoritos" class="list-group"></ul>
-                     </div>
-                 </div>
-                 <div class="col-md-6">
-                     <div class="panel p-3 bg-secondary rounded">
-                         <h2>Mis puntuaciones</h2>
-                         <ul id="ratings" class="list-group"></ul>
-                     </div>
-                 </div>
-             </div>
+         <div id="favoritos-panel" class="panel-seccion" style="display:none;">
+             <h2 class="text-white">Mis favoritos</h2>
+             <ul id="favoritos" class="list-group"></ul>
+         </div>
+
+         <div id="puntuaciones-panel" class="panel-seccion" style="display:none;">
+             <h2 class="text-white">Mis puntuaciones</h2>
+             <ul id="ratings" class="list-group"></ul>
          </div>
      </main>
     <footer></footer>
