@@ -1,50 +1,36 @@
-/*const API_KEY = "826664005a5966d64d967b70dcc87724";
-const API_URL = `https://api.themoviedb.org/3/movie/popular?api_key=${API_KEY}&language=es&page=1`;
+const API_KEY = "826664005a5966d64d967b70dcc87724";
+const API_URL_POPULARES = `https://api.themoviedb.org/3/movie/popular?api_key=${API_KEY}&language=es&page=1`;
 
-async function traerPeliculas(){
-
-    const listado = document.getElementById("listado");
+async function traerPeliculasPopulares() {
+    const contenedor = document.getElementById("listado-populares");
 
     try {
-        const respuesta = await fetch(API_URL);
+        const respuesta = await fetch(API_URL_POPULARES);
         const datos = await respuesta.json();
         const peliculas = datos.results;
 
-        listado.innerHTML = '';
+        contenedor.innerHTML = "";
 
-        for (let i = 0; i < 30 && i < peliculas.length; i++) {
-
-            const pelicula = peliculas[i];
+        peliculas.slice(0, 12).forEach(pelicula => {
             const div = document.createElement("div");
             div.classList.add("col");
 
             div.innerHTML = `
-             <div class="col">
-                    <div class="card h-100 shadow-sm">
-                        <img src="https://image.tmdb.org/t/p/w300${pelicula.poster_path}" class="card-img-top" alt="${pelicula.title}">
-                        <div class="card-body d-flex flex-column">
-                            <h5 class="card-title">T${pelicula.title}</h5>
-                            <p class="card-text text-truncate">${pelicula.overview || 'Sin descripción disponible.'}</p>
-                            <div class="mt-auto">
-                                <p class="text-muted mb-1">⭐ ${pelicula.vote_average.toFixed(1)}</p>
-                                <a href="pages/detalle.html?id=${pelicula.id}" class="btn btn-primary btn-sm">Ver detalles</a>
-                            </div>
-                        </div>
+                <div class="card h-100 shadow-sm">
+                    <img src="https://image.tmdb.org/t/p/w300${pelicula.poster_path}" class="card-img-top" alt="${pelicula.title}">
+                    <div class="card-body">
+                        <h5 class="card-title">${pelicula.title}</h5>
                     </div>
                 </div>
-        `;
-            listado.appendChild(div);
-        }
-    }catch (error){
-        console.error("Error al traer películas:", error);
-        listado.innerHTML = `<p class="text-danger">No se pudieron cargar las películas. Intenta más tarde.</p>`;
+            `;
+            contenedor.appendChild(div);
+        });
+
+    } catch (error) {
+        console.error("Error al cargar películas populares:", error);
+        contenedor.innerHTML = `<p class="text-danger">No se pudieron cargar las películas populares.</p>`;
     }
-
 }
-
-addEventListener('DOMContentLoaded', () => {
-    traerPeliculas();
-});*/
 
 //const baseUrl = "https://tpbdii-backend.onrender.com";
 
@@ -54,6 +40,8 @@ let token = localStorage.getItem("token") || null;
 // Verificar autenticación al cargar la página principal
 if (window.location.pathname.endsWith("index.html")) {
     window.onload = () => {
+        traerPeliculasPopulares();
+        mostrarSeccion("populares");
         if (token) {
             const payload = JSON.parse(atob(token.split('.')[1]));
             if (payload.role === "ADMIN") {
@@ -137,7 +125,7 @@ async function buscarPeliculas() {
                         <p class="card-text text-truncate">${peli.overview || 'Sin descripción'}</p>
                         <div class="mt-auto">
                             <button onclick="agregarFavorito('${peli.id}')">❤️ Favorito</button>
-                            <button onclick="quitarFavorito('${peli.id}')">❌ Quitar</button>
+                            <button id="quitar-${peli.imdbID}" disabled onclick="quitarFavorito('${peli.imdbID}')">❌ Quitar</button>
                             <select class="bg-success" onchange="puntuar('${peli.id}', this.value)">
                             <option value="">⭐ Puntuar</option>
                             ${[1,2,3,4,5].map(n => `<option class="bg-success" value="${n}">${n}</option>`).join("")}
@@ -210,10 +198,10 @@ async function cargarFavoritos() {
     const favs = data.map(f => JSON.parse(f));
 
     document.getElementById("favoritos").innerHTML = favs.map(pelicula => `
-        <li style="display: flex; align-items: center; margin-bottom: 8px;">
+        <li style="display: flex; align-items: center; margin-bottom: 8px; flex-direction: column; padding: 20px; ">
             <img src="https://image.tmdb.org/t/p/w92${pelicula.poster_path}" 
                  alt="${pelicula.title}" 
-                 style="width: 50px; height: auto; margin-right: 10px; border-radius: 4px;">
+                 style="width: 100px; height: auto; margin-right: 10px; border-radius: 4px;">
             <span>${pelicula.title}</span>
         </li>
     `).join("");
@@ -238,7 +226,7 @@ async function cargarRatings() {
             <li style="display: flex; align-items: center; margin-bottom: 8px;">
                 <img src="https://image.tmdb.org/t/p/w92${peli.poster_path}" 
                      alt="${peli.title}" 
-                     style="width: 50px; height: auto; margin-right: 10px; border-radius: 4px;">
+                     style="width: 100px; height: auto; margin-right: 10px; border-radius: 4px;">
                 <span><strong>${peli.title}</strong>: ${r.score}/5</span>
             </li>
         `;
@@ -248,7 +236,69 @@ async function cargarRatings() {
 }
 
 function mostrarSeccion(nombre) {
-    document.getElementById("search-panel").style.display = nombre === "buscar" ? "block" : "none";
-    document.getElementById("favoritos-panel").style.display = nombre === "favoritos" ? "block" : "none";
-    document.getElementById("puntuaciones-panel").style.display = nombre === "puntuaciones" ? "block" : "none";
+    const popularesPanel = document.getElementById("populares-panel");
+    const buscarPanel = document.getElementById("search-panel");
+    const favoritosPanel = document.getElementById("favoritos-panel");
+    const puntuacionesPanel = document.getElementById("puntuaciones-panel");
+
+    // Ocultar todos los paneles
+    popularesPanel.style.display = "none";
+    buscarPanel.style.display = "none";
+    favoritosPanel.style.display = "none";
+    puntuacionesPanel.style.display = "none";
+
+    // Mostrar el panel que corresponda
+    switch (nombre) {
+        case "populares":
+            popularesPanel.style.display = "block";
+            break;
+        case "buscar":
+            buscarPanel.style.display = "block";
+            break;
+        case "favoritos":
+            favoritosPanel.style.display = "block";
+            break;
+        case "puntuaciones":
+            puntuacionesPanel.style.display = "block";
+            break;
+    }
+}
+
+async function cargarPeliculasPopulares() {
+    try {
+        const res = await fetch(`${baseUrl}/api/movies/popular`);
+        const data = await res.json();
+        const results = document.getElementById("results");
+        results.innerHTML = "";
+
+        data.results.forEach(peli => {
+            const card = document.createElement("div");
+            card.className = "movie-card";
+            card.classList.add("col");
+
+            card.innerHTML = `
+                <div class="col">
+                    <div class="card h-100 shadow-sm">
+                        <img src="https://image.tmdb.org/t/p/w200${peli.poster_path}" class="card-img-top" alt="poster" width=300 height=300>
+                        <div class="card-body d-flex flex-column bg-primary">
+                            <h5 class="card-title">${peli.title} (${(peli.release_date || '').split('-')[0] || 'N/A'})</h5>
+                            <p class="card-text text-truncate">${peli.overview || 'Sin descripción'}</p>
+                            <div class="mt-auto">
+                                <button onclick="agregarFavorito('${peli.id}')">❤️ Favorito</button>
+                                <button onclick="quitarFavorito('${peli.id}')" disabled>❌ Quitar</button>
+                                <select class="bg-success" onchange="puntuar('${peli.id}', this.value)">
+                                <option value="">⭐ Puntuar</option>
+                                ${[1,2,3,4,5].map(n => `<option class="bg-success" value="${n}">${n}</option>`).join("")}
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+            results.appendChild(card);
+        });
+    } catch (error) {
+        console.error("Error al cargar películas populares:", error);
+        document.getElementById("results").innerHTML = `<p class="text-danger">No se pudieron cargar las películas populares</p>`;
+    }
 }

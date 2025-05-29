@@ -11,7 +11,7 @@
      <header id="header" class="mb-3">
         <nav class="navbar bg-success">
             <div class="container-fluid">
-                <a href="#" onclick="mostrarSeccion('buscar')" class="navbar-brand mb-0 h1 text-white text-decoration-none">
+                <a href="#" onclick="mostrarSeccion('populares')" class="navbar-brand mb-0 h1 text-white text-decoration-none">
                     Films Tracker
                 </a>
                 <ul class="navbar-nav d-flex flex-row">
@@ -45,14 +45,19 @@
              <div id="results" class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4"></div>
          </div>
 
-         <div id="favoritos-panel" class="panel-seccion" style="display:none;">
-             <h2 class="text-white">Mis favoritos</h2>
-             <ul id="favoritos" class="list-group"></ul>
+         <div id="populares-panel" class="panel-seccion mb-5" style="display:none;" onclick="mostrarSeccion('populares')">
+             <h2 class="text-white">Películas populares</h2>
+             <div id="listado-populares" class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4"></div>
          </div>
 
-         <div id="puntuaciones-panel" class="panel-seccion" style="display:none;">
+         <div id="favoritos-panel" class="panel-seccion" style="display:none;" onclick="mostrarSeccion('favoritos')">
+             <h2 class="text-white">Mis favoritos</h2>
+             <ul id="favoritos" class="d-flex favs"></ul>
+         </div>
+
+         <div id="puntuaciones-panel" class="panel-seccion" style="display:none;" onclick="mostrarSeccion('puntuaciones')">
              <h2 class="text-white">Mis puntuaciones</h2>
-             <ul id="ratings" class="list-group"></ul>
+             <ul id="ratings" class="d-flex puntuaciones"></ul>
          </div>
      </main>
     <footer></footer>

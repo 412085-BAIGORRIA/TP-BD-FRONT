@@ -56,3 +56,45 @@ button:hover {
 .divider {
     width: 40px;
 }
+.favs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    justify-content: center;
+    padding: 0;
+    list-style: none;
+}
+.favs li {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 150px; /* fijo para que se acomoden */
+    word-wrap: break-word;
+    white-space: normal;
+    text-align: center;
+}
+.favs li span {
+    word-wrap: break-word;
+    white-space: normal;
+}
+
+.puntuaciones {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    padding: 0;
+    list-style: none;
+}
+.puntuaciones li {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 150px;
+    word-wrap: break-word;
+    white-space: normal;
+    text-align: center;
+}
+.puntuaciones li span {
+    word-wrap: break-word;
+    white-space: normal;
+}
