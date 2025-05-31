@@ -119,16 +119,16 @@ async function buscarPeliculas() {
         card.innerHTML = `
              <div class="col">
                 <div class="card h-100 shadow-sm">
-                    <img src="https://image.tmdb.org/t/p/w200${peli.poster_path}" class="card-img-top" alt="poster" width=300 height=300>
-                    <div class="card-body d-flex flex-column bg-primary">
+                    <img id="img-card" src="https://image.tmdb.org/t/p/w200${peli.poster_path}" class="card-img-top img-fluid" alt="poster">
+                    <div id="card-body" class="card-body d-flex flex-column">
                         <h5 class="card-title">${peli.title} (${(peli.release_date || '').split('-')[0] || 'N/A'})</h5>
                         <p class="card-text text-truncate">${peli.overview || 'Sin descripción'}</p>
                         <div class="mt-auto">
                             <button onclick="agregarFavorito('${peli.id}')">❤️ Favorito</button>
                             <button id="quitar-${peli.imdbID}" disabled onclick="quitarFavorito('${peli.imdbID}')">❌ Quitar</button>
-                            <select class="bg-success" onchange="puntuar('${peli.id}', this.value)">
+                            <select class="bg-success rounded-pill mt-1 text-white" onchange="puntuar('${peli.id}', this.value)">
                             <option value="">⭐ Puntuar</option>
-                            ${[1,2,3,4,5].map(n => `<option class="bg-success" value="${n}">${n}</option>`).join("")}
+                            ${[1,2,3,4,5].map(n => `<option class="bg-success text-white" value="${n}">${n}</option>`).join("")}
                             </select>
                         </div>
                     </div>
