@@ -122,7 +122,7 @@ async function buscarPeliculas() {
                     <img id="img-card" src="https://image.tmdb.org/t/p/w200${peli.poster_path}" class="card-img-top img-fluid" alt="poster">
                     <div id="card-body" class="card-body d-flex flex-column">
                         <h5 class="card-title">${peli.title} (${(peli.release_date || '').split('-')[0] || 'N/A'})</h5>
-                        <p class="card-text text-truncate">${peli.overview || 'Sin descripción'}</p>
+                        <p class="card-text text-truncate" data-bs-toggle="tooltip" data-bs-placement="top" title="${peli.overview || 'Sin descripción'}">Ver descripcion</p>
                         <div class="mt-auto">
                             <button onclick="agregarFavorito('${peli.id}')">❤️ Favorito</button>
                             <button id="quitar-${peli.imdbID}" disabled onclick="quitarFavorito('${peli.imdbID}')">❌ Quitar</button>
@@ -136,6 +136,9 @@ async function buscarPeliculas() {
             </div>
         `
         results.appendChild(card);
+        document.querySelectorAll('[data-bs-toggle="tooltip"]').forEach(el => {
+            new bootstrap.Tooltip(el);
+        });
     });
 }
 
