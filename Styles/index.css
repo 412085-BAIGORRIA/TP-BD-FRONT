@@ -134,3 +134,67 @@ button:hover {
     -webkit-box-orient: vertical;
     min-height: 3em;
 }
+.movie-list-card {
+    border: 1px solid #ccc;
+    padding: 1em;
+    margin-bottom: 1em;
+    background-color: #1c1c1c;
+    color: white;
+}
+
+.poster-container img {
+    margin-right: 5px;
+    border-radius: 4px;
+}
+.listas{
+    flex-direction: column;
+    list-style: none;
+}
+.list-header{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+.friend-list{
+    display: flex;
+    flex-direction: column;
+    list-style: none;
+}
+.friend-row{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+
+}
+.user-profile-card {
+    padding: 1em;
+    border: 1px solid #444;
+    background-color: #121212;
+    color: white;
+    max-width: 500px;
+    margin: 0 auto;
+    border-radius: 8px;
+}
+
+.user-profile-card h2, h3 {
+    margin-top: 0;
+}
+
+.user-profile-card ul {
+    list-style: none;
+    padding-left: 0;
+}
+
+.user-profile-card li {
+    padding: 4px 0;
+}
+
+#form-agregar-amigo {
+    display: flex;
+    gap: 8px;
+    margin-top: 0.5em;
+}
+
+#form-agregar-amigo input {
+    flex-grow: 1;
+}

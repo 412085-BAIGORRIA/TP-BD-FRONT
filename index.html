@@ -24,6 +24,12 @@
                     <li class="nav-item me-2">
                         <a class="nav-link text-white" href="#" onclick="mostrarSeccion('puntuaciones')">Mis Puntuaciones</a>
                     </li>
+                    <li class="nav-item me-2">
+                        <a class="nav-link text-white" href="#" onclick="mostrarSeccion('listas')">Listas</a>
+                    </li>
+                    <li class="nav-item me-2">
+                        <a class="nav-link text-white" href="#" onclick="mostrarSeccion('perfil')">Perfil</a>
+                    </li>
                 </ul>
                 <div class="d-flex">
                     <a id="login-nav-button" href="Pages/login.html" class="btn btn-success btn-outline-light me-2">Login</a>
@@ -58,6 +64,18 @@
          <div id="puntuaciones-panel" class="panel-seccion" style="display:none;" onclick="mostrarSeccion('puntuaciones')">
              <h2 class="text-white">Mis puntuaciones</h2>
              <ul id="ratings" class="d-flex puntuaciones"></ul>
+         </div>
+         <div id="listas-panel" class="panel-seccion" style="display:none;">
+
+             <div id="listas-buscador" class="d-flex justify-content-center align-items-center">
+                 <input type="text" id="queryListas" placeholder="Nombre de lista" class="text-center">
+                 <button onclick="buscarListas()" class="btn btn-success">Buscar</button>
+             </div>
+             <h2 class="text-white">Listas populares</h2>
+             <ul id="listas" class="d-flex listas"></ul>
+         </div>
+         <div id="perfil-panel" class="panel-seccion" style="display:none;" >
+
          </div>
      </main>
     <footer></footer>

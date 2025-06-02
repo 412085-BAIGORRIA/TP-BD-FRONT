@@ -238,17 +238,221 @@ async function cargarRatings() {
     ratingsList.innerHTML = detalles.join("");
 }
 
+async function cargarListas(url) {
+    const res = await fetch(`${baseUrl}${url}`);
+    if (!res.ok) return;
+    const listas = await res.json();
+
+    const listaList = document.getElementById("listas");
+    listaList.innerHTML = "Cargando...";
+    const listFragment = document.createDocumentFragment();
+
+    for (const list of listas) {
+        // Fetch user
+        const usuarioRes = await fetch(`${baseUrl}/api/user/${list.ownerId}`);
+        if (!usuarioRes.ok) continue;
+        const usuario = await usuarioRes.json();
+
+        // Fetch all movies concurrently
+        const pelis = await Promise.all(list.movies.map(async (movieId) => {
+            const movieRes = await fetch(`${baseUrl}/api/movies/${movieId}`);
+            if (!movieRes.ok) return '';
+            const peli = await movieRes.json();
+            return `<img src="https://image.tmdb.org/t/p/w92${peli.poster_path}" alt="${peli.title}" title="${peli.title}">`;
+        }));
+
+        // Create list card
+        const listCard = document.createElement('li');
+        listCard.classList.add('movie-list-card');
+        listCard.innerHTML = `
+            <div class="list-header" >
+                <h3>${list.name}</h3>
+                <a href="/user/${usuario.id}">${usuario.username}</a>
+            </div>
+            <div class="poster-container">
+                ${pelis.join("")}
+            </div>
+            <p>${list.description}</p>
+            <button onclick="likeLista('${list.id}')">❤️ Me gusta</button>
+        `;
+
+        listFragment.appendChild(listCard);
+    }
+
+    listaList.innerHTML = ""; // Clear loading text
+    listaList.appendChild(listFragment);
+}
+
+async function buscarListas(){
+    const query = document.getElementById("queryListas").value;
+    const queryUrl = `/api/movie-lists/search?query=${encodeURIComponent(query)}`;
+
+    const results = document.getElementById("listas");
+    results.innerHTML = "";
+    await cargarListas(queryUrl);
+
+}
+async function likeLista(listaId){
+
+    const res = await fetch(`${baseUrl}/api/movie-lists/favorite/${listaId}`, {
+        method: "PUT",
+        headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${token}`
+        }
+    });
+    alert(res.ok ? "Le diste like a la lista" : "Error al dar like");
+    if (res.ok) ;
+}
+
+async function cargarPerfilUsuario() {
+    const perfilContainer = document.getElementById("perfil-panel");
+    perfilContainer.innerHTML = "Cargando perfil...";
+
+    try {
+        // Get user data
+        const resUser = await fetch(`${baseUrl}/api/user/profile`,
+            {
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${token}`
+                }
+            }
+            );
+        if (!resUser.ok) throw new Error("Error al cargar usuario");
+        const usuario = await resUser.json();
+
+        // Get friends
+        const resFriends = await fetch(`${baseUrl}/api/user/friends`,
+            {
+                headers: { "Authorization": `Bearer ${token}` }
+            });
+        const amigos = resFriends.ok ? await resFriends.json() : [];
+
+        // Get pending requests
+        const resPending = await fetch(`${baseUrl}/api/user/friend-requests`,
+            {
+                headers: { "Authorization": `Bearer ${token}` }
+            }
+            );
+        const pendientes = resPending.ok ? await resPending.json() : [];
+
+        // Build profile HTML
+        perfilContainer.innerHTML = `
+            <div class="user-profile-card">
+                <h2 style="text-align: left">${usuario.username}</h2>
+                <section>
+                    <h3>Invitar amigo</h3>
+                    <form id="form-agregar-amigo">
+                        <input type="text" id="nuevo-amigo" placeholder="Nombre de usuario">
+                        <button type="submit">Enviar solicitud</button>
+                    </form>
+                </section>
+                <section>
+                    <h3>Amigos</h3>
+                    <ul class="friend-list" id="lista-amigos">
+                        ${amigos.length > 0 ? amigos.map(a => `<li class="friend-row">
+                                                                <div>${a.username}</div>
+                                                                <button onclick="eliminarAmigo('${a.username}')">Eliminar</button></li>`).join('') : "<li>No tiene amigos aún.</li>"}
+                    </ul>
+                </section>
+
+                <section>
+                    <h3>📨 Solicitudes Pendientes</h3>
+                    <ul class="friend-list" id="solicitudes-pendientes">
+                        ${pendientes.length > 0 ? pendientes.map(p => `<li class="friend-row">
+                                                                               
+                                                                               <div>${p.username}</div>
+                                                                                <button onclick="aceptarInvitacion('${p.username}')">Aceptar</button>
+                                                                                <button onclick="rechazarInvitacion('${p.username}')">Rechazar</button>
+                                                                               </li>`).join('') : "<li>No hay solicitudes pendientes.</li>"}
+                    </ul>
+                </section>
+
+                
+            </div>
+        `;
+
+        // Add submit listener to add friend form
+        document.getElementById("form-agregar-amigo").addEventListener("submit", async (e) => {
+            e.preventDefault();
+            const nuevoAmigo = document.getElementById("nuevo-amigo").value;
+            if (!nuevoAmigo) return;
+
+            const resAdd = await fetch(`${baseUrl}/api/user/friend-invite/${nuevoAmigo}`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${token}`
+                }
+
+            });
+
+            if (resAdd.ok) {
+                alert("Solicitud enviada");
+                document.getElementById("nuevo-amigo").value = "";
+                //cargarPerfilUsuario(); // Refresh profile
+            } else {
+                alert("No se encontro al usuario.");
+            }
+        });
+
+    } catch (err) {
+        perfilContainer.innerHTML = `<p>Error al cargar perfil: ${err.message}</p>`;
+    }
+}
+async function eliminarAmigo(username){
+
+    const res = await fetch(`${baseUrl}/api/user/friends/${username}`, {
+        method: "DELETE",
+        headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${token}`
+        }
+    });
+    alert(res.ok ? "Amigo eliminado" : "Error al eliminar amigo");
+    if (res.ok) await cargarPerfilUsuario();
+}
+
+async function aceptarInvitacion(username){
+    const res = await fetch(`${baseUrl}/api/user/friend-accept/${username}`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${token}`
+        }
+    });
+    alert(res.ok ? "Solictud aceptada" : "Error aceptar la solicitud");
+    if (res.ok) await cargarPerfilUsuario();
+}
+async function rechazarInvitacion(username){
+    const res = await fetch(`${baseUrl}/api/user/friend-reject/${username}`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${token}`
+        }
+    });
+    alert(res.ok ? "Solictud rechazada" : "Error rechazar la solicitud");
+    if (res.ok) await cargarPerfilUsuario();
+}
+
+
 function mostrarSeccion(nombre) {
     const popularesPanel = document.getElementById("populares-panel");
     const buscarPanel = document.getElementById("search-panel");
     const favoritosPanel = document.getElementById("favoritos-panel");
     const puntuacionesPanel = document.getElementById("puntuaciones-panel");
+    const listasPanel = document.getElementById("listas-panel");
+    const perfilPanel = document.getElementById("perfil-panel");
 
     // Ocultar todos los paneles
     popularesPanel.style.display = "none";
     buscarPanel.style.display = "none";
     favoritosPanel.style.display = "none";
     puntuacionesPanel.style.display = "none";
+    listasPanel.style.display = "none";
+    perfilPanel.style.display = "none";
 
     // Mostrar el panel que corresponda
     switch (nombre) {
@@ -263,6 +467,14 @@ function mostrarSeccion(nombre) {
             break;
         case "puntuaciones":
             puntuacionesPanel.style.display = "block";
+            break;
+        case "listas":
+            listasPanel.style.display = "block";
+            cargarListas('/api/movie-lists/most-liked');
+            break;
+        case "perfil":
+            perfilPanel.style.display = "block";
+            cargarPerfilUsuario("");
             break;
     }
 }
