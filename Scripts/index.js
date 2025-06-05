@@ -236,7 +236,7 @@ async function buscarPeliculas() {
                         <p class="card-text text-truncate" data-bs-toggle="tooltip" data-bs-placement="top" title="${peli.overview || 'Sin descripción'}">Ver descripcion</p>
                         <div class="mt-auto">
                             <button onclick="agregarFavorito('${peli.id}')">❤️ Favorito</button>
-                            <button id="quitar-${peli.imdbID}" disabled onclick="quitarFavorito('${peli.imdbID}')">❌ Quitar</button>
+                             <button id="quitar-${peli.id}" onclick="quitarFavorito('${peli.id}')">❌ Quitar</button>
                             <select class="bg-success rounded-pill mt-1 text-white" onchange="puntuar('${peli.id}', this.value)">
                             <option value="">⭐ Puntuar</option>
                             ${[1,2,3,4,5].map(n => `<option class="bg-success text-white" value="${n}">${n}</option>`).join("")}
@@ -272,13 +272,11 @@ async function agregarFavorito(movieId) {
 }
 
 async function quitarFavorito(movieId) {
-    const res = await fetch(`${baseUrl}/api/user/favorite`, {
+    const res = await fetch(`${baseUrl}/api/user/favorite/${movieId}`, {
         method: "DELETE",
         headers: {
-            "Content-Type": "application/json",
             "Authorization": `Bearer ${token}`
-        },
-        body: JSON.stringify({ movieId })
+        }
     });
     alert(res.ok ? "Quitado de favoritos" : "Error al quitar favorito");
     if (res.ok) cargarFavoritos();
