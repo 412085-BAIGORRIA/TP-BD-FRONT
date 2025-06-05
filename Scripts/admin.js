@@ -190,7 +190,8 @@ async function cargarTopCriticos() {
     const headers = { "Authorization": `Bearer ${token}` };
 
     try {
-        const res = await fetch(`http://localhost:8080/api/admin/top-critics?limit=${limit}`, { headers });
+        const res = await fetch(`${baseUrl}/api/admin/top-critics?limit=${limit}`, { headers });
+
 
         if (res.status === 403) {
             alert('No autorizado. Necesitás permisos de administrador.');
