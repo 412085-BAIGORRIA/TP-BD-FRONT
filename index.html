@@ -4,7 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4Q6Gf2aSP4eDXB8Miphtr37CMZZQ5oXLH2yaXMJ2w8e2ZtHTl7GptT4jmndRuHDT" crossorigin="anonymous">
-    <link rel="stylesheet" href="Styles/index.css">
+    <link href='https://fonts.googleapis.com/css?family=Montserrat' rel='stylesheet'>
+    <link rel="stylesheet" href="Styles/indexAlternativo.css">
     <title>Check Films</title>
 </head>
 <body class="bg-dark">
@@ -18,16 +19,19 @@
                     <li class="nav-item me-2 text-center">
                         <a class="nav-link text-white" href="#" onclick="mostrarSeccion('buscar')">Buscar película</a>
                     </li>
+                    <!--
                     <li class="nav-item me-2">
                         <a class="nav-link text-white" href="#" onclick="mostrarSeccion('favoritos')">Mis Favoritos</a>
                     </li>
                     <li class="nav-item me-2">
                         <a class="nav-link text-white" href="#" onclick="mostrarSeccion('puntuaciones')">Mis Puntuaciones</a>
                     </li>
+                    -->
+
                     <li class="nav-item me-2">
                         <a class="nav-link text-white" href="#" onclick="mostrarSeccion('listas')">Listas</a>
                     </li>
-                    <li class="nav-item me-2">
+                    <li id="profile-link" class="nav-item me-2" style="display:none;">
                         <a class="nav-link text-white" href="#" onclick="mostrarSeccion('perfil')">Perfil</a>
                     </li>
                 </ul>
@@ -40,7 +44,7 @@
         </nav>
     </header>
      <main class="container bg-dark text-center py-4">
-         <h1 class="text-light mb-4">Bienvenido a Films Tracker</h1>
+         <!--<h1 class="text-light mb-4">Bienvenido a Films Tracker</h1>-->
 
          <div id="search-panel" class="panel-seccion mb-3">
              <h2 class="text-white">Buscar película</h2>
@@ -51,22 +55,19 @@
              <div id="results" class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4"></div>
          </div>
 
+
          <div id="populares-panel" class="panel-seccion mb-5" style="display:none;" onclick="mostrarSeccion('populares')">
              <h2 class="text-white">Películas populares</h2>
              <div id="listado-populares" class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4"></div>
          </div>
+         <!--
 
          <div id="favoritos-panel" class="panel-seccion" style="display:none;" onclick="mostrarSeccion('favoritos')">
              <h2 class="text-white">Mis favoritos</h2>
              <ul id="favoritos" class="d-flex favs"></ul>
          </div>
-
-         <div id="puntuaciones-panel" class="panel-seccion" style="display:none;" onclick="mostrarSeccion('puntuaciones')">
-             <h2 class="text-white">Mis puntuaciones</h2>
-             <ul id="ratings" class="d-flex puntuaciones"></ul>
-         </div>
+         -->
          <div id="listas-panel" class="panel-seccion" style="display:none;">
-
              <div id="listas-buscador" class="d-flex justify-content-center align-items-center">
                  <input type="text" id="queryListas" placeholder="Nombre de lista" class="text-center">
                  <button onclick="buscarListas()" class="btn btn-success">Buscar</button>
@@ -74,9 +75,48 @@
              <h2 class="text-white">Listas populares</h2>
              <ul id="listas" class="d-flex listas"></ul>
          </div>
-         <div id="perfil-panel" class="panel-seccion" style="display:none;" >
+         <div id="contenedor-perfil" class="contenedor=perfil">
+             <div id="perfil-panel" class="panel-seccion"  >
+
+             </div>
+             <div id="puntuaciones-panel" class="panel-seccion" >
+                 <h2 class="text-white">Mis puntuaciones</h2>
+                 <ul id="ratings" class="d-flex puntuaciones"></ul>
+             </div>
+             <div id="favoritos-panel" class="panel-seccion" >
+                 <h2 class="text-white">Mis favoritos</h2>
+                 <ul id="favoritos" class="d-flex favs"></ul>
+             </div>
+             <div id="mis-listas-panel" class="panel-seccion">
+
+                 <h2 class="text-white">Mis Listas </h2>
+                 <div id="crear-lista" class="crear-lista-form">
+                     <h3 class="text-white">Crear Nueva Lista</h3>
+                     <form id="form-nueva-lista">
+                         <input type="text" id="lista-nombre" placeholder="Nombre de la lista" required />
+                         <textarea id="lista-descripcion" placeholder="Descripción de la lista" required></textarea>
+                         <input type="text" id="lista-tags" placeholder="Etiquetas (separadas por comas)" />
+
+                         <label for="buscar-peliculas">Agregar Películas:</label>
+                         <input type="text" id="buscar-peliculas" placeholder="Buscar películas..." autocomplete="off" />
+                         <ul id="sugerencias-peliculas" class="sugerencias"></ul>
+
+                         <div>
+                             <h4>Películas seleccionadas:</h4>
+                             <ul id="peliculas-seleccionadas"></ul>
+                         </div>
+
+                         <button type="submit">Crear Lista</button>
+                     </form>
+                 </div>
+
+                 <ul id="mis-listas" class="d-flex listas"></ul>
+             </div>
 
          </div>
+
+
+
      </main>
     <footer></footer>
     <script src="Scripts/index.js"></script>

@@ -1,6 +1,16 @@
+:root {
+    --background: #121212;
+    --surface: #1c1c1c;
+    --text: #f0f0f0;
+    --accent: #4a90e2;
+    --accent-hover: #3a6fb0;
+    --border: #333;
+    --radius: 8px;
+}
+
 body {
-    background-color: #111;
-    color: #eee;
+    background-color: var(--background);
+    color: var(--text);
     font-family: 'Montserrat', sans-serif;
     margin: 0;
     padding: 0;
@@ -12,21 +22,22 @@ header {
 }
 
 #navbar {
-    border-radius: 10px;
-    background-color: #1e3a8a;
+    border-radius: var(--radius);
+    background-color: var(--accent);
 }
 
 .nav-item {
     padding: 5px;
-    border-radius: 5px;
+    border-radius: var(--radius);
+    transition: background-color 0.3s;
 }
 
 .nav-item:hover {
-    background-color: #157347;
+    background-color: var(--accent-hover);
 }
 
 h1 {
-    color: #fff;
+    color: var(--text);
     margin: 0;
 }
 
@@ -37,11 +48,12 @@ h1 {
 }
 
 .form-box {
-    background-color: #222;
+    background-color: var(--surface);
     padding: 20px;
     margin: 10px;
-    border-radius: 10px;
+    border-radius: var(--radius);
     width: 250px;
+    border: 1px solid var(--border);
 }
 
 input {
@@ -49,27 +61,32 @@ input {
     margin: 10px auto;
     padding: 10px;
     width: 90%;
-    border: none;
-    border-radius: 5px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    background-color: var(--background);
+    color: var(--text);
 }
 
 button {
-    background-color: #27ae60;
+    background-color: var(--accent);
     color: white;
     border: none;
     padding: 10px;
-    border-radius: 5px;
+    border-radius: var(--radius);
     cursor: pointer;
+    transition: background-color 0.3s;
 }
 
 button:hover {
-    background-color: #1e874b;
+    background-color: var(--accent-hover);
 }
 
 .divider {
     width: 40px;
 }
-.favs {
+
+.favs,
+.puntuaciones {
     display: flex;
     flex-wrap: wrap;
     gap: 16px;
@@ -77,27 +94,8 @@ button:hover {
     padding: 0;
     list-style: none;
 }
-.favs li {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 150px; /* fijo para que se acomoden */
-    word-wrap: break-word;
-    white-space: normal;
-    text-align: center;
-}
-.favs li span {
-    word-wrap: break-word;
-    white-space: normal;
-}
 
-.puntuaciones {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 16px;
-    padding: 0;
-    list-style: none;
-}
+.favs li,
 .puntuaciones li {
     display: flex;
     flex-direction: column;
@@ -106,24 +104,26 @@ button:hover {
     word-wrap: break-word;
     white-space: normal;
     text-align: center;
-}
-.puntuaciones li span {
-    word-wrap: break-word;
-    white-space: normal;
+    background-color: var(--surface);
+    padding: 1em;
+    border-radius: var(--radius);
+    border: 1px solid var(--border);
 }
 
 .card {
-    border: 2px solid #1e3a8a;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
 }
 
 #card-body {
-    background-color: #1e3a8a;
+    background-color: var(--accent);
     color: white;
+    border-radius: var(--radius);
 }
 
 #card-complete {
-    border: 2px solid black;
-    border-radius: 15px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
 }
 
 .card-title {
@@ -134,49 +134,51 @@ button:hover {
     -webkit-box-orient: vertical;
     min-height: 3em;
 }
+
 .movie-list-card {
-    border: 1px solid #ccc;
+    border: 1px solid var(--border);
     padding: 1em;
     margin-bottom: 1em;
-    background-color: #1c1c1c;
-    color: white;
+    background-color: var(--surface);
+    color: var(--text);
+    border-radius: var(--radius);
 }
 
 .poster-container img {
     margin-right: 5px;
     border-radius: 4px;
 }
-.listas{
+
+.listas,
+.friend-list {
     flex-direction: column;
     list-style: none;
 }
-.list-header{
+
+.list-header {
     display: flex;
     align-items: center;
     gap: 10px;
 }
-.friend-list{
-    display: flex;
-    flex-direction: column;
-    list-style: none;
-}
-.friend-row{
+
+.friend-row {
     display: flex;
     flex-direction: row;
     justify-content: space-around;
-
 }
+
 .user-profile-card {
     padding: 1em;
-    border: 1px solid #444;
-    background-color: #121212;
-    color: white;
+    border: 1px solid var(--border);
+    background-color: var(--surface);
+    color: var(--text);
     max-width: 500px;
     margin: 0 auto;
-    border-radius: 8px;
+    border-radius: var(--radius);
 }
 
-.user-profile-card h2, h3 {
+.user-profile-card h2,
+.user-profile-card h3 {
     margin-top: 0;
 }
 
@@ -198,26 +200,28 @@ button:hover {
 #form-agregar-amigo input {
     flex-grow: 1;
 }
+
 #sugerencias-peliculas {
     list-style: none;
     padding: 0;
     margin: 0;
-    background: #333;
-    color: #fff;
+    background: var(--surface);
+    color: var(--text);
     max-height: 150px;
     overflow-y: auto;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
 }
+
 #sugerencias-peliculas li {
     padding: 5px 10px;
     cursor: pointer;
 }
+
 #sugerencias-peliculas li:hover {
-    background: #555;
+    background: var(--accent-hover);
 }
+
 #peliculas-seleccionadas li {
     margin: 5px 0;
-}
-.user-tag:hover{
-    cursor: pointer;
-    color: whitesmoke;
 }
