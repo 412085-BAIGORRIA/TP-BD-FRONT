@@ -32,9 +32,9 @@ async function traerPeliculasPopulares() {
     }
 }
 
-//const baseUrl = "https://tpbdii-backend.onrender.com";
+const baseUrl = "https://tpbdii-backend.onrender.com";
 
-const baseUrl = "http://localhost:8080";
+//const baseUrl = "http://localhost:8080";
 let token = localStorage.getItem("token") || null;
 
 // Verificar autenticación al cargar la página principal

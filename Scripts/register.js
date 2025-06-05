@@ -1,5 +1,5 @@
-const baseUrl = "http://localhost:8080";
-
+//const baseUrl = "http://localhost:8080";
+const baseUrl = "https://tpbdii-backend.onrender.com";
 async function register() {
     const username = document.getElementById("register-username").value;
     const email = document.getElementById("register-email").value;
