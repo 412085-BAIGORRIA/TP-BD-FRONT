@@ -160,6 +160,15 @@ if (window.location.pathname.endsWith("index.html")) {
                 alert("Error de red al intentar crear la lista.");
             }
         });
+        const toggleFormButton = document.getElementById("toggle-form-button");
+
+        toggleFormButton.addEventListener("click", () => {
+            if (form.style.display === "none" || form.style.display === "") {
+                form.style.display = "block";
+            } else {
+                form.style.display = "none";
+            }
+        });
     };
 }
 
@@ -272,6 +281,11 @@ async function agregarFavorito(movieId) {
 }
 
 async function quitarFavorito(movieId) {
+    if (!token) {
+        mostrarToast("Debés iniciar sesión para poder quitar favoritos.");
+        //alert("Debés iniciar sesión para poder agregar favoritos.");
+        return;
+    }
     const res = await fetch(`${baseUrl}/api/user/favorite/${movieId}`, {
         method: "DELETE",
         headers: {
@@ -463,7 +477,7 @@ async function cargarListas(url) {
         listCard.innerHTML = `
             <div class="list-header" >
                 <h3>${list.name}</h3>
-                <a class="user-tag" >${usuario.username}</a>
+                <a class="user-tag" onclick="cargarPerfil('${list.ownerId}')">${usuario.username}</a>
             </div>
             <div class="poster-container">
                 ${pelis.join("")}
