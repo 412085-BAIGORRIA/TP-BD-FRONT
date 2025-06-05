@@ -250,6 +250,10 @@ async function buscarPeliculas() {
 }
 
 async function agregarFavorito(movieId) {
+    if (!token) {
+        alert("Debés iniciar sesión para poder agregar favoritos.");
+        return;
+    }
     const res = await fetch(`${baseUrl}/api/user/favorite`, {
         method: "POST",
         headers: {
@@ -276,6 +280,10 @@ async function quitarFavorito(movieId) {
 }
 
 async function puntuar(movieId, score) {
+    if (!token) {
+        alert("Debés iniciar sesión para poder puntuar.");
+        return;
+    }
     if (!score) return;
     const res = await fetch(`${baseUrl}/api/user/rate`, {
         method: "POST",
@@ -564,6 +572,11 @@ async function buscarListas(){
 
 }
 async function likeLista(listaId){
+
+    if (!token) {
+        alert("Debés iniciar sesión para poder ponerle favorito a una lista.");
+        return;
+    }
 
     const res = await fetch(`${baseUrl}/api/movie-lists/favorite/${listaId}`, {
         method: "PUT",
