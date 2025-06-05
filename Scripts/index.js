@@ -223,10 +223,14 @@ async function buscarPeliculas() {
         card.className = "movie-card";
         card.classList.add("col");
 
+        const posterUrl = peli.poster_path
+            ? `https://image.tmdb.org/t/p/w200${peli.poster_path}`
+            : `https://placehold.co/200x300?text=Sin+imagen&font=montserrat&font-weight=600`;
+
         card.innerHTML = `
              <div class="col">
                 <div class="card h-100 shadow-sm">
-                    <img id="img-card" src="https://image.tmdb.org/t/p/w200${peli.poster_path}" class="card-img-top img-fluid" alt="poster">
+                    <img id="img-card" src="${posterUrl}" class="card-img-top img-fluid" alt="poster">
                     <div id="card-body" class="card-body d-flex flex-column">
                         <h5 class="card-title">${peli.title} (${(peli.release_date || '').split('-')[0] || 'N/A'})</h5>
                         <p class="card-text text-truncate" data-bs-toggle="tooltip" data-bs-placement="top" title="${peli.overview || 'Sin descripción'}">Ver descripcion</p>
