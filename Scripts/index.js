@@ -732,7 +732,7 @@ async function cargarPerfilUsuario() {
                     <ul class="friend-list" id="solicitudes-pendientes">
                         ${pendientes.length > 0 ? pendientes.map(p => `<li class="friend-row">
                                                                                
-                                                                               <a class="user-tag" onclick="cargarPerfil('${a.id}')>${p.username}</a>
+                                                                               <a class="user-tag" onclick="cargarPerfil('${a.id}')">${p.username}</a>
                                                                                 <button onclick="aceptarInvitacion('${p.username}')">Aceptar</button>
                                                                                 <button onclick="rechazarInvitacion('${p.username}')">Rechazar</button>
                                                                                </li>`).join('') : "<li>No hay solicitudes pendientes.</li>"}
