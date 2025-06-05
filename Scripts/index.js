@@ -405,6 +405,17 @@ async function cargarListas(url) {
     const listas = await res.json();
 
     const listaList = document.getElementById("listas");
+    const mensaje = document.getElementById("listas-mensaje");
+
+    if (listas.length === 0) {
+        listaList.innerHTML = "";
+        mensaje.style.display = "block";
+        mensaje.textContent = "No se encontró ninguna lista con ese título.";
+        return;
+    } else {
+        mensaje.style.display = "none";
+    }
+
     listaList.innerHTML = "Cargando...";
     const listFragment = document.createDocumentFragment();
 
@@ -544,6 +555,7 @@ async function cargarListasPersonales() {
 
 async function buscarListas(){
     const query = document.getElementById("queryListas").value;
+    document.getElementById("listas-titulo").textContent = "Resultados de búsqueda";
     const queryUrl = `/api/movie-lists/search?query=${encodeURIComponent(query)}`;
 
     const results = document.getElementById("listas");
@@ -786,6 +798,8 @@ function mostrarSeccion(nombre) {
             break;
         case "listas":
             listasPanel.style.display = "block";
+            document.getElementById("queryListas").value = "";
+            document.getElementById("listas-titulo").textContent = "Listas populares";
             cargarListas('/api/movie-lists/most-liked');
             break;
         case "perfil":
