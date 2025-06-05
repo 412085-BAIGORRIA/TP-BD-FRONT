@@ -251,7 +251,8 @@ async function buscarPeliculas() {
 
 async function agregarFavorito(movieId) {
     if (!token) {
-        alert("Debés iniciar sesión para poder agregar favoritos.");
+        mostrarToast("Debés iniciar sesión para poder agregar favoritos.");
+        //alert("Debés iniciar sesión para poder agregar favoritos.");
         return;
     }
     const res = await fetch(`${baseUrl}/api/user/favorite`, {
@@ -279,9 +280,22 @@ async function quitarFavorito(movieId) {
     if (res.ok) cargarFavoritos();
 }
 
+function mostrarToast(mensaje) {
+    const toast = document.getElementById("toast");
+    toast.textContent = mensaje;
+    toast.style.visibility = "visible";
+    toast.style.opacity = "1";
+
+    setTimeout(() => {
+        toast.style.opacity = "0";
+        toast.style.visibility = "hidden";
+    }, 3000);
+}
+
 async function puntuar(movieId, score) {
     if (!token) {
-        alert("Debés iniciar sesión para poder puntuar.");
+        mostrarToast("Debés iniciar sesión para poder puntuar.");
+        //alert("Debés iniciar sesión para poder puntuar.");
         return;
     }
     if (!score) return;
@@ -574,7 +588,8 @@ async function buscarListas(){
 async function likeLista(listaId){
 
     if (!token) {
-        alert("Debés iniciar sesión para poder ponerle favorito a una lista.");
+        mostrarToast("Debés iniciar sesión para poder ponerle favorito a una lista.");
+        //alert("Debés iniciar sesión para poder ponerle favorito a una lista.");
         return;
     }
 
