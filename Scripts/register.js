@@ -26,15 +26,30 @@ async function cargarPaises() {
     const select = document.getElementById("register-country");
 
     const codes = await fetch("https://flagcdn.com/en/codes.json")
-        .then(res => res.ok ? res.json() : [])
-        .catch(() => []);
+        .then(res => res.ok ? res.json() : {})
+        .catch(() => ({}));
 
     Object.keys(codes).sort().forEach(code => {
+        const codeUpper = code.toUpperCase();
+
+        // Filtrar: solo códigos de 2 letras (ISO 3166-1 alpha-2)
+        if (codeUpper.length !== 2) return;
+
+        // Intentar obtener el nombre, si falla, saltar
+        let nombre;
+        try {
+            nombre = paises.of(codeUpper);
+            if (!nombre) return; // No agregar si no tiene nombre
+        } catch {
+            return; // Código inválido, no agregar
+        }
+
         const option = document.createElement("option");
-        option.value = code.toUpperCase();
-        option.textContent = paises.of(code.toUpperCase()) || code.toUpperCase();
+        option.value = codeUpper;
+        option.textContent = nombre;
         select.appendChild(option);
     });
 }
+
 
 cargarPaises();
